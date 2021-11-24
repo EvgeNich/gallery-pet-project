@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: image-database
+    restart: always
+    image: mysql:5
+    ports:
+      - 3306:3306
+    volumes:
+      - "./files/database:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: 'gallery_project'
+      MYSQL_USER: 'gp_user'
+      MYSQL_PASSWORD: 'gp_password'
+      MYSQL_ROOT_PASSWORD: 'root_password'
+
+  python:
+    restart: always
+    build: ./server
+    container_name: python-server
+    ports:
+      - 8000:8000
+    volumes:
+      - "./files/images:/server/images"
+    links:
+      - mysql

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <style>
+            blackbody {
+                background-color: #181a1b;
+                color: #e8e6e3;
+            }
+            a:link, a:visited {
+                color: #3391ff
+            }
+            .form {
+                display: block;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form">
+            <form enctype = "multipart/form-data" method = "post">
+                <p>File: <input type = "file" name = "file" id = "filef" accept="image/*"/></p>
+                <p>Name: <input type = "text" name = "textfield" id = "textf"/></p>
+                <p><input type = "submit" value = "Upload" /></p>
+            </form>
+            <hr width="400px">
+            <p><a href="/gallery">Gallery</a></p>
+        </div>
+        <script>
+            const filef = document.getElementById("filef");
+            const textf = document.getElementById("textf");
+            filef.addEventListener('change', file_nameToField);
+            function file_nameToField(ev) {
+                const file = ev?.target?.files?.[0];
+                if (!file) return; 
+                textf.value = file.name.split('.')[0];
+                console.log(file.name);
+            }
+        </script>
+    </body>
+</html>

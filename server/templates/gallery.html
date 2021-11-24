@@ -1,0 +1,77 @@
+<html>
+<head>
+    <style>
+        blackbody {
+            background-color: #181a1b;
+            color: #e8e6e3;
+        }
+        .return {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1rem;
+        }
+        .wrapper {
+            /*border: 2px outset red;*/
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 210px));
+            grid-gap: 1rem;
+            grid-auto-rows: auto;
+            justify-content: center;
+        }
+        .image_box {
+            /*border: 2px outset green;*/
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 1rem 0 rgba(173, 179, 181, 0.4), 0 .25rem .3rem 0 rgba(173, 179, 181, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .title{
+            margin: 0.5rem;
+            text-align: center;
+            word-break: break-word;
+        }
+        .info{
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="location.href='/'" type="button" class="return">Back</button>
+    <div class="wrapper">
+        {% for image in images %}
+        <div class="image_box">
+            <a href="{{image['file_path']}}">
+                <img src="{{image['thumbnail_path']}}">
+            </a>
+            <p class="title"><b>{{image['file_name']}}</b><br>({{image['file_size']}})</p>
+            <div  class="info">
+                {% if not image['maker'] and not image['model'] %}
+                {% elif image['maker'] and not image['model'] %}
+                    <p>Camera:<br>{{image['maker']}}</p>
+                {% elif not image['maker'] and image['model'] %}
+                    <p>Camera:<br>{{image['model']}}</p>
+                {% else %}
+                    <p>Camera:<br>{{image['maker']}}<br>{{image['model']}}</p>
+                {% endif %}
+                {% if image['creation_date'] %}
+                    <p>Creation date:<br>{{image['creation_date']}}</p>
+                {% else %}
+                {% endif %}
+                <p>Upload date:<br>{{image['upload_date']}}</p>
+            </div>
+            <button type="button" onclick="handleOnClick({{image['img_id']}})">Delete</button>
+        </div>
+        {% endfor %}
+    </div>
+<script>
+    function handleOnClick(id) {
+        fetch("http://localhost:8000/gallery", {method: "DELETE", body: id})
+        .then(() => {location.reload();});
+    }
+</script>
+</body>
+</html>
