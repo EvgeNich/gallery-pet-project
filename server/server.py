@@ -108,7 +108,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_DELETE(self):
         length = int(self.headers.get('content-length'))
         image_id = int(self.rfile.read(length))
-        thumbnail_flag, file_name = session.query(ImageTable.thumbnail, ImageTable.file_name).filter(ImageTable.img_id==image_id).one()
+        id_in_db = session.query(ImageTable.thumbnail, ImageTable.file_name).filter(ImageTable.img_id==image_id).first()
+        if not id_in_db:
+            self.send_error(404)
+            return
+        thumbnail_flag, file_name = id_in_db
         image_processing.delete_image(file_name, thumbnail_flag)
         session.query(ImageTable).filter(ImageTable.img_id==image_id).delete()
         session.commit()
