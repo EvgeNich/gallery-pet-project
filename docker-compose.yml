@@ -1,5 +1,10 @@
 version: '3.7'
 
+x-db-env: &db-env
+  MYSQL_DATABASE: 'gallery_project'
+  MYSQL_USER: 'gp_user'
+  MYSQL_PASSWORD: 'gp_password'
+
 services:
   mysql:
     container_name: image-database
@@ -10,9 +15,7 @@ services:
     volumes:
       - "./files/database:/var/lib/mysql"
     environment:
-      MYSQL_DATABASE: 'gallery_project'
-      MYSQL_USER: 'gp_user'
-      MYSQL_PASSWORD: 'gp_password'
+      <<: *db-env
       MYSQL_ROOT_PASSWORD: 'root_password'
 
   python:
@@ -23,5 +26,9 @@ services:
       - 8000:8000
     volumes:
       - "./files/images:/server/images"
-    links:
+    environment:
+      <<: *db-env
+      MYSQL_HOST: 'mysql'
+      MYSQL_PORT: 3306
+    depends_on:
       - mysql
