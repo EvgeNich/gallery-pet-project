@@ -30,5 +30,3 @@ services:
       <<: *db-env
       MYSQL_HOST: 'mysql'
       MYSQL_PORT: 3306
-    depends_on:
-      - mysql

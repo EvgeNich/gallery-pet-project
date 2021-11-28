@@ -31,4 +31,11 @@ This project uses `http.server` for the server and for the base of request handl
 
 `Docker` was used to deploy the app. There is a separate container for the MySQL database and for the Python server, which acts both as HTTP and file server.
 
+You can deploy the app with:
+```
+docker-compose up
+```
+
 After the deployment, you can find my app at http://localhost:8000
+
+> NOTE: MySQL will take some time to get ready

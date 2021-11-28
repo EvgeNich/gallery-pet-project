@@ -71,9 +71,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         form = cgi.FieldStorage(
-            fp=self.rfile,
-            headers=self.headers,
-            environ={'REQUEST_METHOD':'POST',
+            fp = self.rfile,
+            headers = self.headers,
+            environ = {'REQUEST_METHOD':'POST',
                     'CONTENT_TYPE':self.headers['Content-Type'],
             })
         if not form['file'].filename:
